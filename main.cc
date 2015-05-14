@@ -1,5 +1,4 @@
 #include <utility>
-#define __NO_STD_VECTOR // Use cl::vector instead of STL version
 #include <CL/cl.h>
 #include <cstdio>
 #include <cstdlib>
@@ -36,13 +35,12 @@ cl_program compile_program(cl_context context, cl_uint devices_count,
   err = clBuildProgram(program, devices_count, devices, NULL, NULL, NULL);
   if (err != CL_SUCCESS) {
     size_t buf_size;
-    cl_build_status stat;
     clGetProgramBuildInfo(program, devices[0], CL_PROGRAM_BUILD_LOG, 0, NULL,
                           &buf_size);
     char *buf = (char *)malloc(buf_size);
     clGetProgramBuildInfo(program, devices[0], CL_PROGRAM_BUILD_LOG, buf_size,
                           buf, NULL);
-    std::cout << "Build log: " << stat << std::endl << buf << std::endl;
+    std::cout << "Build log: " << std::endl << buf << std::endl;
   }
   checkErr(err, "clBuildProgram");
 
